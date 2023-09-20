@@ -31,4 +31,8 @@ public class MakeCategoryDTO {
     public Category toDomain(CategoryInput categoryInput) {
         return modelMapper.map(categoryInput, Category.class);
     }
+
+    public void copyToDomain(CategoryInput categoryInput, Category category) {
+        modelMapper.map(categoryInput, category);
+    }
 }

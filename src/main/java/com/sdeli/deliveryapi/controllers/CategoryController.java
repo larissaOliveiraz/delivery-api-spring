@@ -44,4 +44,16 @@ public class CategoryController {
         return makeDTO.toDTO(category);
     }
 
+    @PutMapping("/{id}")
+    public CategoryDTO update(@PathVariable Long id,
+                              @RequestBody @Valid CategoryInput categoryInput) {
+        Category category = service.findByIdOrThrow(id);
+
+        makeDTO.copyToDomain(categoryInput, category);
+
+        category = service.save(category);
+
+        return makeDTO.toDTO(category);
+    }
+
 }
