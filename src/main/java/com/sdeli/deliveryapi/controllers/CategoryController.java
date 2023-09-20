@@ -39,6 +39,7 @@ public class CategoryController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CategoryDTO save(@RequestBody @Valid CategoryInput categoryInput) {
         Category category = makeDTO.toDomain(categoryInput);
         category = service.save(category);
