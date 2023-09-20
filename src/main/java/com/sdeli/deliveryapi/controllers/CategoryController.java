@@ -2,13 +2,12 @@ package com.sdeli.deliveryapi.controllers;
 
 import com.sdeli.deliveryapi.dto.CategoryDTO;
 import com.sdeli.deliveryapi.dto.factories.MakeCategoryDTO;
+import com.sdeli.deliveryapi.dto.input.CategoryInput;
 import com.sdeli.deliveryapi.model.Category;
 import com.sdeli.deliveryapi.repositories.CategoryRepository;
 import com.sdeli.deliveryapi.services.CategoryService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,6 +34,13 @@ public class CategoryController {
     @GetMapping("/{id}")
     public CategoryDTO findById(@PathVariable Long id) {
         Category category = service.findByIdOrThrow(id);
+        return makeDTO.toDTO(category);
+    }
+
+    @PostMapping
+    public CategoryDTO save(@RequestBody @Valid CategoryInput categoryInput) {
+        Category category = makeDTO.toDomain(categoryInput);
+        category = service.save(category);
         return makeDTO.toDTO(category);
     }
 

@@ -1,6 +1,7 @@
 package com.sdeli.deliveryapi.dto.factories;
 
 import com.sdeli.deliveryapi.dto.CategoryDTO;
+import com.sdeli.deliveryapi.dto.input.CategoryInput;
 import com.sdeli.deliveryapi.model.Category;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -25,5 +26,9 @@ public class MakeCategoryDTO {
         return categories.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public Category toDomain(CategoryInput categoryInput) {
+        return modelMapper.map(categoryInput, Category.class);
     }
 }

@@ -14,6 +14,10 @@ public class CategoryService {
         this.repository = repository;
     }
 
+    public Category save(Category category) {
+        return repository.save(category);
+    }
+
     public Category findByIdOrThrow(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException(id));
