@@ -7,6 +7,7 @@ import com.sdeli.deliveryapi.model.Category;
 import com.sdeli.deliveryapi.repositories.CategoryRepository;
 import com.sdeli.deliveryapi.services.CategoryService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,6 +55,12 @@ public class CategoryController {
         category = service.save(category);
 
         return makeDTO.toDTO(category);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 
 }
