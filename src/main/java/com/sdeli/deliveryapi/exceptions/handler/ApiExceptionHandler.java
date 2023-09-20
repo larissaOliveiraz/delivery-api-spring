@@ -1,6 +1,8 @@
 package com.sdeli.deliveryapi.exceptions.handler;
 
 import com.sdeli.deliveryapi.exceptions.EntityNotFoundException;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -12,9 +14,16 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+
+    private final MessageSource messageSource;
+
+    public ApiExceptionHandler(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -26,7 +35,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemType problemType = ProblemType.INVALID_DATA;
         String detail = "One or more fields are invalid. Correct the mistakes and try again.";
 
-        Problem problem = problemBuilder(problemType, status, detail).build();
+        List<Problem.Field> problemFields = ex.getBindingResult()
+                .getFieldErrors().stream()
+                .map(fieldError -> {
+                    String message = messageSource
+                            .getMessage(fieldError, LocaleContextHolder.getLocale());
+
+                    return Problem.Field.builder()
+                            .name(fieldError.getField())
+                            .message(message)
+                            .build();
+                }).toList();
+
+        Problem problem = problemBuilder(problemType, status, detail)
+                .fields(problemFields)
+                .build();
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
