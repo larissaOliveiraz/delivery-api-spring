@@ -48,4 +48,22 @@ public class StateController {
         return makeDTO.toDTO(state);
     }
 
+    @PutMapping("/{id}")
+    public StateDTO update(@PathVariable Long id,
+                           @RequestBody @Valid StateInput stateInput) {
+        State state = service.findByIdOrThrow(id);
+
+        makeDTO.copyToDomain(stateInput, state);
+
+        state = service.save(state);
+
+        return makeDTO.toDTO(state);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
+    }
+
 }
