@@ -1,6 +1,7 @@
 package com.sdeli.deliveryapi.services;
 
 import com.sdeli.deliveryapi.exceptions.EntityAlreadyExistsException;
+import com.sdeli.deliveryapi.exceptions.EntityInUseException;
 import com.sdeli.deliveryapi.exceptions.PaymentTypeNotFoundException;
 import com.sdeli.deliveryapi.model.PaymentType;
 import com.sdeli.deliveryapi.repositories.PaymentTypeRepository;
@@ -21,6 +22,15 @@ public class PaymentTypeService {
             return repository.save(paymentType);
         } catch (DataIntegrityViolationException ex) {
             throw new EntityAlreadyExistsException("Payment type", paymentType.getDescription());
+        }
+    }
+
+    public void delete(Long id) {
+        try {
+            findByIdOrThrow(id);
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            throw new EntityInUseException("Payment type", id);
         }
     }
 
