@@ -1,5 +1,6 @@
 package com.sdeli.deliveryapi.exceptions.handler;
 
+import com.sdeli.deliveryapi.exceptions.EntityAlreadyExistsException;
 import com.sdeli.deliveryapi.exceptions.EntityNotFoundException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -61,6 +62,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     ) {
         ProblemType problemType = ProblemType.RESOURCE_NOT_FOUND;
         HttpStatus status = HttpStatus.NOT_FOUND;
+
+        Problem problem = problemBuilder(problemType, status, ex.getMessage()).build();
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(EntityAlreadyExistsException.class)
+    private ResponseEntity<?> handleEntityAlreadyExists(
+            EntityAlreadyExistsException ex,
+            WebRequest request
+    ) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ProblemType problemType = ProblemType.RESOURCE_ALREADY_EXISTS;
 
         Problem problem = problemBuilder(problemType, status, ex.getMessage()).build();
 

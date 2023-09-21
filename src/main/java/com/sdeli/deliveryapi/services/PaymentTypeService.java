@@ -19,7 +19,7 @@ public class PaymentTypeService {
         try {
             return repository.save(paymentType);
         } catch (DataIntegrityViolationException ex) {
-            throw new EntityAlreadyExistsException("PaymentType", paymentType.getDescription());
+            throw new EntityAlreadyExistsException("Payment type", paymentType.getDescription());
         }
     }
 
