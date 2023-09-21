@@ -1,7 +1,7 @@
 DELETE FROM categories;
 DELETE FROM cities;
 DELETE FROM states;
-
+DELETE FROM payment_types;
 
 INSERT INTO categories (id, name)
 VALUES (1, 'Brazilian'),
@@ -25,3 +25,9 @@ VALUES (1, 'Campinas', 1),
        (4, 'Belo Horizonte', 4);
 ALTER SEQUENCE cities_id_seq RESTART WITH 5;
 
+INSERT INTO payment_types (id, description)
+VALUES (1, 'Credit Card'),
+       (2, 'Debit Card'),
+       (3, 'Money'),
+       (4, 'Transfer');
+ALTER SEQUENCE payment_types_id_seq RESTART WITH 5;
