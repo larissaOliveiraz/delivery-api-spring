@@ -31,6 +31,12 @@ public class CityController {
         return makeDTO.toCollectionDTO(cities);
     }
 
+    @GetMapping("/{id}")
+    public CityDTO findById(@PathVariable Long id) {
+        City city = service.findByIdOrThrow(id);
+        return makeDTO.toDTO(city);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CityDTO save(@RequestBody CityInput cityInput) {
@@ -39,6 +45,24 @@ public class CityController {
         city = service.save(city);
 
         return makeDTO.toDTO(city);
+    }
+
+    @PutMapping("/{id}")
+    public CityDTO update(@PathVariable Long id,
+                          @RequestBody CityInput cityInput) {
+        City city = service.findByIdOrThrow(id);
+
+        makeDTO.copyToDomain(cityInput, city);
+
+        city = service.save(city);
+
+        return makeDTO.toDTO(city);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 
 }

@@ -32,4 +32,8 @@ public class MakeCityDTO {
         return modelMapper.map(cityInput, City.class);
     }
 
+    public void copyToDomain(CityInput cityInput, City city) {
+        modelMapper.map(cityInput, city);
+    }
+
 }

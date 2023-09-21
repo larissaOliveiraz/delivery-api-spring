@@ -1,8 +1,11 @@
 package com.sdeli.deliveryapi.services;
 
+import com.sdeli.deliveryapi.exceptions.CityNotFoundException;
+import com.sdeli.deliveryapi.exceptions.EntityInUseException;
 import com.sdeli.deliveryapi.model.City;
 import com.sdeli.deliveryapi.model.State;
 import com.sdeli.deliveryapi.repositories.CityRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,5 +25,19 @@ public class CityService {
         city.setState(state);
 
         return repository.save(city);
+    }
+
+    public void delete(Long id) {
+        try {
+            findByIdOrThrow(id);
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            throw new EntityInUseException("City", id);
+        }
+    }
+
+    public City findByIdOrThrow(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new CityNotFoundException(id));
     }
 }
