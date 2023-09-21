@@ -1,6 +1,7 @@
 package com.sdeli.deliveryapi.services;
 
 import com.sdeli.deliveryapi.exceptions.EntityAlreadyExistsException;
+import com.sdeli.deliveryapi.exceptions.PaymentTypeNotFoundException;
 import com.sdeli.deliveryapi.model.PaymentType;
 import com.sdeli.deliveryapi.repositories.PaymentTypeRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,6 +22,11 @@ public class PaymentTypeService {
         } catch (DataIntegrityViolationException ex) {
             throw new EntityAlreadyExistsException("Payment type", paymentType.getDescription());
         }
+    }
+
+    public PaymentType findByIdOrThrow(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new PaymentTypeNotFoundException(id));
     }
 
 }
