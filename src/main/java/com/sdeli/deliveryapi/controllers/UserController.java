@@ -3,6 +3,7 @@ package com.sdeli.deliveryapi.controllers;
 import com.sdeli.deliveryapi.dto.UserDTO;
 import com.sdeli.deliveryapi.dto.factories.MakeUserDTO;
 import com.sdeli.deliveryapi.dto.input.UserInput;
+import com.sdeli.deliveryapi.dto.input.UserPasswordInput;
 import com.sdeli.deliveryapi.dto.input.UserUpdateInput;
 import com.sdeli.deliveryapi.model.User;
 import com.sdeli.deliveryapi.repositories.UserRepository;
@@ -54,6 +55,17 @@ public class UserController {
         user = service.save(user);
 
         return makeDTO.toDTO(user);
+    }
+
+    @PutMapping("/{id}/password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updatePassword(@PathVariable Long id,
+                               @RequestBody UserPasswordInput userInput) {
+        service.updatePassword(
+                id,
+                userInput.getCurrentPassword(),
+                userInput.getNewPassword()
+        );
     }
 
 }
