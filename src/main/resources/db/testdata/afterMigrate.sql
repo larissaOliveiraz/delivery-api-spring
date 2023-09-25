@@ -12,6 +12,10 @@ DELETE
 FROM permissions;
 DELETE
 FROM roles;
+DELETE
+FROM users_roles;
+DELETE
+FROM users;
 
 
 INSERT INTO categories (id, name)
@@ -55,10 +59,22 @@ VALUES (1, 'SECRETARY'),
        (3, 'OWNER');
 ALTER SEQUENCE roles_id_seq RESTART WITH 4;
 
+INSERT INTO users (id, name, email, password, created_at)
+VALUES (1, 'Larissa', 'larissa@gmail.com', '123', CURRENT_TIMESTAMP),
+       (2, 'Jurema', 'jurema@gmail.com', '321', CURRENT_TIMESTAMP),
+       (3, 'Pantufa', 'pantufa@gmail.com', 'pantufa', CURRENT_TIMESTAMP);
+ALTER SEQUENCE users_id_seq RESTART WITH 4;
+
 INSERT INTO roles_permissions (role_id, permission_id)
 VALUES (1, 1),
        (1, 2),
        (2, 1),
        (3, 1),
        (3, 2),
-       (3, 3)
+       (3, 3);
+
+INSERT INTO users_roles (user_id, role_id)
+VALUES (1, 3),
+       (2, 2),
+       (2, 1),
+       (3, 1);
