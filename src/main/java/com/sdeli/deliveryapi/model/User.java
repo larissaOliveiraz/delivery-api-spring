@@ -36,4 +36,12 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    public void addRole(Role role) {
+        getRoles().add(role);
+    }
+
+    public void removeRole(Role role) {
+        getRoles().remove(role);
+    }
+
 }

@@ -5,10 +5,8 @@ import com.sdeli.deliveryapi.dto.factories.MakeRoleDTO;
 import com.sdeli.deliveryapi.model.User;
 import com.sdeli.deliveryapi.services.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,14 +15,28 @@ import java.util.List;
 @RequestMapping("/users/{userId}/roles")
 public class UserRoleController {
 
-    private final UserService userService;
+    private final UserService service;
     private final MakeRoleDTO makeDTO;
 
     @GetMapping
     public List<RoleDTO> findAll(@PathVariable Long userId) {
-        User user = userService.findByIdOrThrow(userId);
+        User user = service.findByIdOrThrow(userId);
 
         return makeDTO.toCollectionDTO(user.getRoles());
+    }
+
+    @PutMapping("/{roleId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addRole(@PathVariable Long userId,
+                        @PathVariable Long roleId) {
+        service.addRole(userId, roleId);
+    }
+
+    @DeleteMapping("/{roleId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeRole(@PathVariable Long userId,
+                        @PathVariable Long roleId) {
+        service.removeRole(userId, roleId);
     }
 
 }

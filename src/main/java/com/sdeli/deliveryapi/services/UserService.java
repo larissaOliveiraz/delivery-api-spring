@@ -2,6 +2,7 @@ package com.sdeli.deliveryapi.services;
 
 import com.sdeli.deliveryapi.exceptions.InvalidCredentialsException;
 import com.sdeli.deliveryapi.exceptions.UserNotFoundException;
+import com.sdeli.deliveryapi.model.Role;
 import com.sdeli.deliveryapi.model.User;
 import com.sdeli.deliveryapi.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository repository;
+    private final RoleService roleService;
 
     public User save(User user) {
         return repository.save(user);
@@ -29,6 +31,22 @@ public class UserService {
         }
 
         user.setPassword(newPassword);
+    }
+
+    @Transactional
+    public void addRole(Long userId, Long roleId) {
+        User user = findByIdOrThrow(userId);
+        Role role = roleService.findByIdOrThrow(roleId);
+
+        user.addRole(role);
+    }
+
+    @Transactional
+    public void removeRole(Long userId, Long roleId) {
+        User user = findByIdOrThrow(userId);
+        Role role = roleService.findByIdOrThrow(roleId);
+
+        user.removeRole(role);
     }
 
     public User findByIdOrThrow(Long id) {

@@ -11,9 +11,9 @@ FROM roles_permissions;
 DELETE
 FROM permissions;
 DELETE
-FROM roles;
-DELETE
 FROM users_roles;
+DELETE
+FROM roles;
 DELETE
 FROM users;
 
