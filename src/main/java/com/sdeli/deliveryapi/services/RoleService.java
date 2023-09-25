@@ -1,10 +1,12 @@
 package com.sdeli.deliveryapi.services;
 
+import com.sdeli.deliveryapi.exceptions.EntityInUseException;
 import com.sdeli.deliveryapi.exceptions.RoleNotFoundException;
 import com.sdeli.deliveryapi.model.Permission;
 import com.sdeli.deliveryapi.model.Role;
 import com.sdeli.deliveryapi.repositories.RoleRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,15 @@ public class RoleService {
 
     public Role save(Role role) {
         return repository.save(role);
+    }
+
+    public void delete(Long id) {
+        try {
+            findByIdOrThrow(id);
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            throw new EntityInUseException("Role", id);
+        }
     }
 
     @Transactional

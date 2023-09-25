@@ -29,4 +29,8 @@ public class MakeRoleDTO {
     public Role toDomain(RoleInput roleInput) {
         return modelMapper.map(roleInput, Role.class);
     }
+
+    public void copyToDomain(RoleInput roleInput, Role role) {
+        modelMapper.map(roleInput, role);
+    }
 }
