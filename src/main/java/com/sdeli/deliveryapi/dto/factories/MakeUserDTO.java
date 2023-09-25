@@ -2,6 +2,7 @@ package com.sdeli.deliveryapi.dto.factories;
 
 import com.sdeli.deliveryapi.dto.UserDTO;
 import com.sdeli.deliveryapi.dto.input.UserInput;
+import com.sdeli.deliveryapi.dto.input.UserUpdateInput;
 import com.sdeli.deliveryapi.model.User;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,7 +31,7 @@ public class MakeUserDTO {
         return modelMapper.map(userInput, User.class);
     }
 
-    public void copyToDomain(UserInput userInput, User user) {
+    public void copyToDomain(UserUpdateInput userInput, User user) {
         modelMapper.map(userInput, user);
     }
 }

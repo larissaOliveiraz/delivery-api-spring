@@ -3,6 +3,7 @@ package com.sdeli.deliveryapi.controllers;
 import com.sdeli.deliveryapi.dto.UserDTO;
 import com.sdeli.deliveryapi.dto.factories.MakeUserDTO;
 import com.sdeli.deliveryapi.dto.input.UserInput;
+import com.sdeli.deliveryapi.dto.input.UserUpdateInput;
 import com.sdeli.deliveryapi.model.User;
 import com.sdeli.deliveryapi.repositories.UserRepository;
 import com.sdeli.deliveryapi.services.UserService;
@@ -28,11 +29,28 @@ public class UserController {
         return makeDTO.toCollectionDTO(users);
     }
 
+    @GetMapping("/{id}")
+    public UserDTO findById(@PathVariable Long id) {
+        User user = service.findByIdOrThrow(id);
+        return makeDTO.toDTO(user);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO save(@RequestBody @Valid UserInput userInput) {
         User user = makeDTO.toDomain(userInput);
 
+        user = service.save(user);
+
+        return makeDTO.toDTO(user);
+    }
+
+    @PutMapping("/{id}")
+    public UserDTO update(@PathVariable Long id,
+                          @RequestBody @Valid UserUpdateInput userInput) {
+        User user = service.findByIdOrThrow(id);
+
+        makeDTO.copyToDomain(userInput, user);
         user = service.save(user);
 
         return makeDTO.toDTO(user);
