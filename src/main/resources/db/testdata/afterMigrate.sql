@@ -1,7 +1,18 @@
-DELETE FROM categories;
-DELETE FROM cities;
-DELETE FROM states;
-DELETE FROM payment_types;
+DELETE
+FROM categories;
+DELETE
+FROM cities;
+DELETE
+FROM states;
+DELETE
+FROM payment_types;
+DELETE
+FROM roles_permissions;
+DELETE
+FROM permissions;
+DELETE
+FROM roles;
+
 
 INSERT INTO categories (id, name)
 VALUES (1, 'Brazilian'),
@@ -31,3 +42,23 @@ VALUES (1, 'Credit Card'),
        (3, 'Money'),
        (4, 'Transfer');
 ALTER SEQUENCE payment_types_id_seq RESTART WITH 5;
+
+INSERT INTO permissions (id, name, description)
+VALUES (1, 'READ_CATEGORIES', 'Permission to read categories.'),
+       (2, 'EDIT_CATEGORIES', 'Permission to edit categories.'),
+       (3, 'EDIT_RESTAURANT', 'Permission to edit restaurant.');
+ALTER SEQUENCE permissions_id_seq RESTART WITH 4;
+
+INSERT INTO roles (id, name)
+VALUES (1, 'SECRETARY'),
+       (2, 'CLIENT'),
+       (3, 'OWNER');
+ALTER SEQUENCE roles_id_seq RESTART WITH 4;
+
+INSERT INTO roles_permissions (role_id, permission_id)
+VALUES (1, 1),
+       (1, 2),
+       (2, 1),
+       (3, 1),
+       (3, 2),
+       (3, 3)
