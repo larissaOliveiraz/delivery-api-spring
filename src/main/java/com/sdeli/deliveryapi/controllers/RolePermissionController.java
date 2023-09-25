@@ -5,10 +5,7 @@ import com.sdeli.deliveryapi.dto.factories.MakePermissionDTO;
 import com.sdeli.deliveryapi.model.Role;
 import com.sdeli.deliveryapi.services.RoleService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,18 @@ public class RolePermissionController {
         Role role = service.findByIdOrThrow(roleId);
 
         return makePermissionDTO.toCollectionDTO(role.getPermissions());
+    }
+
+    @PutMapping("/{permissionId}")
+    public void addPermission(@PathVariable Long roleId,
+                              @PathVariable Long permissionId) {
+        service.addPermission(roleId, permissionId);
+    }
+
+    @DeleteMapping("/{permissionId}")
+    public void removePermission(@PathVariable Long roleId,
+                              @PathVariable Long permissionId) {
+        service.removePermission(roleId, permissionId);
     }
 
 }
