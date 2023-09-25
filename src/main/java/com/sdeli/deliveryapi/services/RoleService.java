@@ -15,6 +15,10 @@ public class RoleService {
     private final RoleRepository repository;
     private final PermissionService permissionService;
 
+    public Role save(Role role) {
+        return repository.save(role);
+    }
+
     @Transactional
     public void addPermission(Long roleId, Long permissionId) {
         Role role = findByIdOrThrow(roleId);
