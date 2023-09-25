@@ -4,17 +4,15 @@ import com.sdeli.deliveryapi.exceptions.CategoryNotFoundException;
 import com.sdeli.deliveryapi.exceptions.EntityInUseException;
 import com.sdeli.deliveryapi.model.Category;
 import com.sdeli.deliveryapi.repositories.CategoryRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
 public class CategoryService {
 
     private final CategoryRepository repository;
-
-    public CategoryService(CategoryRepository repository) {
-        this.repository = repository;
-    }
 
     public Category save(Category category) {
         return repository.save(category);

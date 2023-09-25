@@ -2,6 +2,7 @@ package com.sdeli.deliveryapi.exceptions.handler;
 
 import com.sdeli.deliveryapi.exceptions.EntityAlreadyExistsException;
 import com.sdeli.deliveryapi.exceptions.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
@@ -17,14 +18,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.time.OffsetDateTime;
 import java.util.List;
 
+@AllArgsConstructor
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final MessageSource messageSource;
-
-    public ApiExceptionHandler(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(

@@ -4,17 +4,15 @@ import com.sdeli.deliveryapi.exceptions.EntityInUseException;
 import com.sdeli.deliveryapi.exceptions.StateNotFoundException;
 import com.sdeli.deliveryapi.model.State;
 import com.sdeli.deliveryapi.repositories.StateRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
 public class StateService {
 
     private final StateRepository repository;
-
-    public StateService(StateRepository repository) {
-        this.repository = repository;
-    }
 
     public State save(State state) {
         return repository.save(state);

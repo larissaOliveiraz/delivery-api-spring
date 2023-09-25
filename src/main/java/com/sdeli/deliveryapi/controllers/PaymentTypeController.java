@@ -6,11 +6,13 @@ import com.sdeli.deliveryapi.dto.input.PaymentTypeInput;
 import com.sdeli.deliveryapi.model.PaymentType;
 import com.sdeli.deliveryapi.repositories.PaymentTypeRepository;
 import com.sdeli.deliveryapi.services.PaymentTypeService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/payment-types")
 public class PaymentTypeController {
@@ -18,12 +20,6 @@ public class PaymentTypeController {
     private final PaymentTypeRepository repository;
     private final PaymentTypeService service;
     private final MakePaymentTypeDTO makeDTO;
-
-    public PaymentTypeController(PaymentTypeRepository repository, PaymentTypeService service, MakePaymentTypeDTO makeDTO) {
-        this.repository = repository;
-        this.service = service;
-        this.makeDTO = makeDTO;
-    }
 
     @GetMapping
     public List<PaymentTypeDTO> findAll() {

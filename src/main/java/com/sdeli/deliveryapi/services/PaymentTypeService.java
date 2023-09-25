@@ -5,17 +5,15 @@ import com.sdeli.deliveryapi.exceptions.EntityInUseException;
 import com.sdeli.deliveryapi.exceptions.PaymentTypeNotFoundException;
 import com.sdeli.deliveryapi.model.PaymentType;
 import com.sdeli.deliveryapi.repositories.PaymentTypeRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
 public class PaymentTypeService {
 
     private final PaymentTypeRepository repository;
-
-    public PaymentTypeService(PaymentTypeRepository repository) {
-        this.repository = repository;
-    }
 
     public PaymentType save(PaymentType paymentType) {
         try {

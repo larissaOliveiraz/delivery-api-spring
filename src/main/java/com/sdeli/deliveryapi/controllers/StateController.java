@@ -7,11 +7,13 @@ import com.sdeli.deliveryapi.model.State;
 import com.sdeli.deliveryapi.repositories.StateRepository;
 import com.sdeli.deliveryapi.services.StateService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/states")
 public class StateController {
@@ -19,12 +21,6 @@ public class StateController {
     private final StateRepository repository;
     private final StateService service;
     private final MakeStateDTO makeDTO;
-
-    public StateController(StateRepository repository, StateService service, MakeStateDTO makeDTO) {
-        this.repository = repository;
-        this.service = service;
-        this.makeDTO = makeDTO;
-    }
 
     @GetMapping
     public List<StateDTO> findAll() {

@@ -7,11 +7,13 @@ import com.sdeli.deliveryapi.model.Category;
 import com.sdeli.deliveryapi.repositories.CategoryRepository;
 import com.sdeli.deliveryapi.services.CategoryService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
@@ -19,12 +21,6 @@ public class CategoryController {
     private final CategoryRepository repository;
     private final CategoryService service;
     private final MakeCategoryDTO makeDTO;
-
-    public CategoryController(CategoryRepository repository, CategoryService service, MakeCategoryDTO makeDTO) {
-        this.repository = repository;
-        this.service = service;
-        this.makeDTO = makeDTO;
-    }
 
     @GetMapping
     public List<CategoryDTO> findAll() {
