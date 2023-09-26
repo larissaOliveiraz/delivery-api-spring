@@ -8,7 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -54,6 +56,9 @@ public class Restaurant {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<Product> products = new ArrayList<>();
 
     public void addPaymentType(PaymentType paymentType) {
         getPaymentTypes().add(paymentType);
