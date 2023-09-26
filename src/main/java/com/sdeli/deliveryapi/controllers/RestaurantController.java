@@ -67,4 +67,16 @@ public class RestaurantController {
         service.deactivate(id);
     }
 
+    @PutMapping("/many-active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activateMany(@RequestBody List<Long> idList) {
+        service.activateMany(idList);
+    }
+
+    @DeleteMapping("/many-active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deactivateMany(@RequestBody List<Long> idList) {
+        service.deactivateMany(idList);
+    }
+
 }

@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class RestaurantService {
@@ -33,15 +35,23 @@ public class RestaurantService {
     @Transactional
     public void activate(Long id) {
         Restaurant restaurant = findByIdOrThrow(id);
-
         restaurant.activate();
     }
 
     @Transactional
     public void deactivate(Long id) {
         Restaurant restaurant = findByIdOrThrow(id);
-
         restaurant.deactivate();
+    }
+
+    @Transactional
+    public void activateMany(List<Long> idList) {
+        idList.forEach(this::activate);
+    }
+
+    @Transactional
+    public void deactivateMany(List<Long> idList) {
+        idList.forEach(this::deactivate);
     }
 
     public Restaurant findByIdOrThrow(Long id) {
