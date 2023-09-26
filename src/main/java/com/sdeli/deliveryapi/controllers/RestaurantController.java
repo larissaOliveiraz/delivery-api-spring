@@ -44,4 +44,15 @@ public class RestaurantController {
         return makeDTO.toDTO(restaurant);
     }
 
+    @PutMapping("/{id}")
+    public RestaurantDTO update(@PathVariable Long id,
+                                @RequestBody RestaurantInput restaurantInput) {
+        Restaurant restaurant = service.findByIdOrThrow(id);
+
+        makeDTO.copyToDomain(restaurantInput, restaurant);
+        restaurant = service.save(restaurant);
+
+        return makeDTO.toDTO(restaurant);
+    }
+
 }
