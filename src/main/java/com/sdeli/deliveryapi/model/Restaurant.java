@@ -47,12 +47,28 @@ public class Restaurant {
     )
     private Set<PaymentType> paymentTypes = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "restaurants_users_responsible",
+            joinColumns = @JoinColumn(name = "restaurant_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> users = new HashSet<>();
+
     public void addPaymentType(PaymentType paymentType) {
         getPaymentTypes().add(paymentType);
     }
 
     public void removePaymentType(PaymentType paymentType) {
         getPaymentTypes().remove(paymentType);
+    }
+
+    public void addUserResponsible(User user) {
+        getUsers().add(user);
+    }
+
+    public void removeUserResponsible(User user) {
+        getUsers().remove(user);
     }
 
     public void activate() {

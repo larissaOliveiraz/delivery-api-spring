@@ -1,10 +1,7 @@
 package com.sdeli.deliveryapi.services;
 
 import com.sdeli.deliveryapi.exceptions.RestaurantNotFoundException;
-import com.sdeli.deliveryapi.model.Category;
-import com.sdeli.deliveryapi.model.City;
-import com.sdeli.deliveryapi.model.PaymentType;
-import com.sdeli.deliveryapi.model.Restaurant;
+import com.sdeli.deliveryapi.model.*;
 import com.sdeli.deliveryapi.repositories.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +17,7 @@ public class RestaurantService {
     private final CategoryService categoryService;
     private final CityService cityService;
     private final PaymentTypeService paymentTypeService;
+    private final UserService userService;
 
     public Restaurant save(Restaurant restaurant) {
         Long categoryId = restaurant.getCategory().getId();
@@ -46,6 +44,20 @@ public class RestaurantService {
         Restaurant restaurant = findByIdOrThrow(restaurantId);
         PaymentType paymentType = paymentTypeService.findByIdOrThrow(paymentTypeId);
         restaurant.removePaymentType(paymentType);
+    }
+
+    @Transactional
+    public void addUserResponsible(Long restaurantId, Long userId) {
+        Restaurant restaurant = findByIdOrThrow(restaurantId);
+        User user = userService.findByIdOrThrow(userId);
+        restaurant.addUserResponsible(user);
+    }
+
+    @Transactional
+    public void removeUserResponsible(Long restaurantId, Long userId) {
+        Restaurant restaurant = findByIdOrThrow(restaurantId);
+        User user = userService.findByIdOrThrow(userId);
+        restaurant.removeUserResponsible(user);
     }
 
     @Transactional
