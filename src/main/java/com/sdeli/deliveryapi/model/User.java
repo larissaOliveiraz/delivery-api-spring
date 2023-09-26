@@ -26,7 +26,7 @@ public class User {
     private String password;
 
     @CreationTimestamp
-    private OffsetDateTime created_at;
+    private OffsetDateTime createdAt;
 
     @ManyToMany
     @JoinTable(

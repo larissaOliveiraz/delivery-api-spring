@@ -1,4 +1,8 @@
 DELETE
+FROM products;
+DELETE
+FROM restaurants;
+DELETE
 FROM categories;
 DELETE
 FROM cities;
@@ -16,7 +20,6 @@ DELETE
 FROM roles;
 DELETE
 FROM users;
-
 
 INSERT INTO categories (id, name)
 VALUES (1, 'Brazilian'),
@@ -78,3 +81,19 @@ VALUES (1, 3),
        (2, 2),
        (2, 1),
        (3, 1);
+
+INSERT INTO restaurants (id, name, category_id, shipment, active, open, created_at, updated_at)
+VALUES (1, 'PizzaITA', 2, 9.9, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+       (2, 'ChurrasBRA', 1, 5.9, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+       (3, 'TacosMEX', 4, 2.9, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+       (4, 'SushiJAP', 5, 12.9, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+       (5, 'CroissantFRA', 3, 10.9, true, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+ALTER SEQUENCE restaurants_id_seq RESTART WITH 6;
+
+INSERT INTO products (id, name, description, price, active, restaurant_id)
+VALUES (1, 'Mozzarella', 'Mozzarella Pizza', 25.5, true, 1),
+       (2, 'Chicken stick', 'Chicken on a stick.', 15.9, true, 2),
+       (3, 'Meat', 'Meat Taco', 30, true, 3),
+       (4, 'Sushi combo', 'Variety of sushi', 105.5, true, 4),
+       (5, 'Chocolate', 'Chocolate Croissant', 12.5, true, 5);
+ALTER SEQUENCE products_id_seq RESTART WITH 6;
