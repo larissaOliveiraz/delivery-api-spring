@@ -3,6 +3,8 @@ package com.sdeli.deliveryapi.controllers;
 import com.sdeli.deliveryapi.dto.RestaurantDTO;
 import com.sdeli.deliveryapi.dto.factories.MakeRestaurantDTO;
 import com.sdeli.deliveryapi.dto.input.RestaurantInput;
+import com.sdeli.deliveryapi.exceptions.GeneralBusinessException;
+import com.sdeli.deliveryapi.exceptions.RestaurantNotFoundException;
 import com.sdeli.deliveryapi.model.Restaurant;
 import com.sdeli.deliveryapi.repositories.RestaurantRepository;
 import com.sdeli.deliveryapi.services.RestaurantService;
@@ -70,13 +72,21 @@ public class RestaurantController {
     @PutMapping("/many-active")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void activateMany(@RequestBody List<Long> idList) {
-        service.activateMany(idList);
+        try {
+            service.activateMany(idList);
+        } catch (RestaurantNotFoundException ex) {
+            throw new GeneralBusinessException(ex.getMessage(), ex);
+        }
     }
 
     @DeleteMapping("/many-active")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deactivateMany(@RequestBody List<Long> idList) {
-        service.deactivateMany(idList);
+        try {
+            service.deactivateMany(idList);
+        } catch (RestaurantNotFoundException ex) {
+            throw new GeneralBusinessException(ex.getMessage(), ex);
+        }
     }
 
 }

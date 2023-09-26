@@ -2,6 +2,7 @@ package com.sdeli.deliveryapi.exceptions.handler;
 
 import com.sdeli.deliveryapi.exceptions.EntityAlreadyExistsException;
 import com.sdeli.deliveryapi.exceptions.EntityNotFoundException;
+import com.sdeli.deliveryapi.exceptions.GeneralBusinessException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -73,6 +74,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     ) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ProblemType problemType = ProblemType.RESOURCE_ALREADY_EXISTS;
+
+        Problem problem = problemBuilder(problemType, status, ex.getMessage()).build();
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(GeneralBusinessException.class)
+    private ResponseEntity<?> handleGeneralBusinessException(
+            GeneralBusinessException ex,
+            WebRequest request
+    ) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ProblemType problemType = ProblemType.GENERAL_BUSINESS;
 
         Problem problem = problemBuilder(problemType, status, ex.getMessage()).build();
 
