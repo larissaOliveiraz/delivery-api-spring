@@ -11,7 +11,7 @@ import java.time.OffsetDateTime;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
+@Entity(name = "restaurants")
 public class Restaurant {
 
     @Id
