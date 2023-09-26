@@ -51,4 +51,16 @@ public class RestaurantProductController {
         return makeDTO.toDTO(product);
     }
 
+    @PutMapping("/{productId}")
+    public ProductDTO update(@PathVariable Long restaurantId,
+                             @PathVariable Long productId,
+                             @RequestBody @Valid ProductInput productInput) {
+        Product product = productService.findByIdOrThrow(restaurantId, productId);
+
+        makeDTO.copyToDomain(productInput, product);
+        product = productService.save(product);
+
+        return makeDTO.toDTO(product);
+    }
+
 }

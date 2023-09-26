@@ -22,6 +22,7 @@ public class ProductInput {
     @PositiveOrZero
     private BigDecimal price;
 
-    private Boolean active = Boolean.TRUE;
+    @NotNull
+    private Boolean active;
 
 }
