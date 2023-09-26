@@ -55,4 +55,16 @@ public class RestaurantController {
         return makeDTO.toDTO(restaurant);
     }
 
+    @PutMapping("/{id}/active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activate(@PathVariable Long id) {
+        service.activate(id);
+    }
+
+    @DeleteMapping("/{id}/active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deactivate(@PathVariable Long id) {
+        service.deactivate(id);
+    }
+
 }

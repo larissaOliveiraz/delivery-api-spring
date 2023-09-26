@@ -37,4 +37,12 @@ public class Restaurant {
     @ManyToOne
     private Category category;
 
+    public void activate() {
+        this.setActive(true);
+    }
+
+    public void deactivate() {
+        this.setActive(false);
+    }
+
 }

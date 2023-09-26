@@ -7,6 +7,7 @@ import com.sdeli.deliveryapi.model.Restaurant;
 import com.sdeli.deliveryapi.repositories.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @AllArgsConstructor
 @Service
@@ -27,6 +28,20 @@ public class RestaurantService {
         restaurant.getAddress().setCity(city);
 
         return repository.save(restaurant);
+    }
+
+    @Transactional
+    public void activate(Long id) {
+        Restaurant restaurant = findByIdOrThrow(id);
+
+        restaurant.activate();
+    }
+
+    @Transactional
+    public void deactivate(Long id) {
+        Restaurant restaurant = findByIdOrThrow(id);
+
+        restaurant.deactivate();
     }
 
     public Restaurant findByIdOrThrow(Long id) {
