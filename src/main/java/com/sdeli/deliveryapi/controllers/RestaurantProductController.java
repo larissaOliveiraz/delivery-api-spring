@@ -2,11 +2,14 @@ package com.sdeli.deliveryapi.controllers;
 
 import com.sdeli.deliveryapi.dto.ProductDTO;
 import com.sdeli.deliveryapi.dto.factories.MakeProductDTO;
+import com.sdeli.deliveryapi.dto.input.ProductInput;
 import com.sdeli.deliveryapi.model.Product;
 import com.sdeli.deliveryapi.model.Restaurant;
 import com.sdeli.deliveryapi.services.ProductService;
 import com.sdeli.deliveryapi.services.RestaurantService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +34,20 @@ public class RestaurantProductController {
     public ProductDTO findById(@PathVariable Long restaurantId,
                                @PathVariable Long productId) {
         Product product = productService.findByIdOrThrow(restaurantId, productId);
+        return makeDTO.toDTO(product);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductDTO save(@PathVariable Long restaurantId,
+                           @RequestBody @Valid ProductInput productInput) {
+        Restaurant restaurant = restaurantService.findByIdOrThrow(restaurantId);
+        Product product = makeDTO.toDomain(productInput);
+
+        product.setRestaurant(restaurant);
+
+        product = productService.save(product);
+
         return makeDTO.toDTO(product);
     }
 

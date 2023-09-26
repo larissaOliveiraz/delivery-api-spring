@@ -12,6 +12,10 @@ public class ProductService {
 
     private final ProductRepository repository;
 
+    public Product save(Product product) {
+        return repository.save(product);
+    }
+
     public Product findByIdOrThrow(Long restaurantId, Long productId) {
         return repository.findById(restaurantId, productId)
                 .orElseThrow(() -> new ProductNotFoundException(restaurantId, productId));

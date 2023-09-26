@@ -22,7 +22,7 @@ public class Product {
 
     private BigDecimal price;
 
-    private Boolean active;
+    private Boolean active = Boolean.TRUE;
 
     @ManyToOne
     private Restaurant restaurant;
