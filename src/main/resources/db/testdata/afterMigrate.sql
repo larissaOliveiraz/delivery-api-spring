@@ -1,6 +1,10 @@
 DELETE
 FROM products;
 DELETE
+FROM restaurants_users_responsible;
+DELETE
+FROM restaurants_payment_types;
+DELETE
 FROM restaurants;
 DELETE
 FROM categories;
@@ -97,3 +101,23 @@ VALUES (1, 'Mozzarella', 'Mozzarella Pizza', 25.5, true, 1),
        (4, 'Sushi combo', 'Variety of sushi', 105.5, true, 4),
        (5, 'Chocolate', 'Chocolate Croissant', 12.5, true, 5);
 ALTER SEQUENCE products_id_seq RESTART WITH 6;
+
+INSERT INTO restaurants_payment_types (restaurant_id, payment_type_id)
+VALUES (1, 1),
+       (2, 1),
+       (2, 2),
+       (3, 1),
+       (3, 3),
+       (4, 1),
+       (4, 4),
+       (5, 1);
+
+INSERT INTO restaurants_users_responsible (restaurant_id, user_id)
+VALUES (1, 1),
+       (2, 1),
+       (2, 2),
+       (3, 2),
+       (3, 3),
+       (4, 3),
+       (4, 1),
+       (5, 3);

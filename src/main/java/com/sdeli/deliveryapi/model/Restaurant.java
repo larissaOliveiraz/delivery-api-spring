@@ -8,6 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -36,6 +38,14 @@ public class Restaurant {
 
     @ManyToOne
     private Category category;
+
+    @ManyToMany
+    @JoinTable(
+            name = "restaurants_payment_types",
+            joinColumns = @JoinColumn(name = "restaurant_id"),
+            inverseJoinColumns = @JoinColumn(name = "payment_type_id")
+    )
+    private Set<PaymentType> paymentTypes = new HashSet<>();
 
     public void activate() {
         this.setActive(true);

@@ -6,6 +6,7 @@ import com.sdeli.deliveryapi.model.PaymentType;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ public class MakePaymentTypeDTO {
         return modelMapper.map(paymentType, PaymentTypeDTO.class);
     }
 
-    public List<PaymentTypeDTO> toCollectionDTO(List<PaymentType> paymentTypes) {
+    public List<PaymentTypeDTO> toCollectionDTO(Collection<PaymentType> paymentTypes) {
         return paymentTypes.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
