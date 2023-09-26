@@ -54,6 +54,18 @@ public class RestaurantService {
         idList.forEach(this::deactivate);
     }
 
+    @Transactional
+    public void open(Long id) {
+        Restaurant restaurant = findByIdOrThrow(id);
+        restaurant.open();
+    }
+
+    @Transactional
+    public void close(Long id) {
+        Restaurant restaurant = findByIdOrThrow(id);
+        restaurant.close();
+    }
+
     public Restaurant findByIdOrThrow(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(id));

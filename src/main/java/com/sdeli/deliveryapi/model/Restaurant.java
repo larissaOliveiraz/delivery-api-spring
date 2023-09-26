@@ -45,4 +45,12 @@ public class Restaurant {
         this.setActive(false);
     }
 
+    public void open() {
+        this.setOpen(true);
+    }
+
+    public void close() {
+        this.setOpen(false);
+    }
+
 }
