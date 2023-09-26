@@ -26,6 +26,7 @@ public class RestaurantInput {
     private CategoryReference category;
 
     @Valid
+    @NotNull
     private AddressDTO address;
 
 }
