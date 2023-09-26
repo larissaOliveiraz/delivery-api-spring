@@ -6,10 +6,8 @@ import com.sdeli.deliveryapi.model.PaymentType;
 import com.sdeli.deliveryapi.model.Restaurant;
 import com.sdeli.deliveryapi.services.RestaurantService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -27,6 +25,20 @@ public class RestaurantPaymentTypeController {
         Restaurant restaurant = restaurantService.findByIdOrThrow(restaurantId);
         Set<PaymentType> paymentTypes = restaurant.getPaymentTypes();
         return makeDTO.toCollectionDTO(paymentTypes);
+    }
+
+    @PutMapping("/{paymentTypeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addPaymentType(@PathVariable Long restaurantId,
+                               @PathVariable Long paymentTypeId) {
+        restaurantService.addPaymentType(restaurantId, paymentTypeId);
+    }
+
+    @DeleteMapping("/{paymentTypeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removePaymentType(@PathVariable Long restaurantId,
+                               @PathVariable Long paymentTypeId) {
+        restaurantService.removePaymentType(restaurantId, paymentTypeId);
     }
 
 }

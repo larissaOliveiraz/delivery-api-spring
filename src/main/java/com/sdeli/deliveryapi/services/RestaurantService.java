@@ -3,6 +3,7 @@ package com.sdeli.deliveryapi.services;
 import com.sdeli.deliveryapi.exceptions.RestaurantNotFoundException;
 import com.sdeli.deliveryapi.model.Category;
 import com.sdeli.deliveryapi.model.City;
+import com.sdeli.deliveryapi.model.PaymentType;
 import com.sdeli.deliveryapi.model.Restaurant;
 import com.sdeli.deliveryapi.repositories.RestaurantRepository;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class RestaurantService {
     private final RestaurantRepository repository;
     private final CategoryService categoryService;
     private final CityService cityService;
+    private final PaymentTypeService paymentTypeService;
 
     public Restaurant save(Restaurant restaurant) {
         Long categoryId = restaurant.getCategory().getId();
@@ -30,6 +32,20 @@ public class RestaurantService {
         restaurant.getAddress().setCity(city);
 
         return repository.save(restaurant);
+    }
+
+    @Transactional
+    public void addPaymentType(Long restaurantId, Long paymentTypeId) {
+       Restaurant restaurant = findByIdOrThrow(restaurantId);
+       PaymentType paymentType = paymentTypeService.findByIdOrThrow(paymentTypeId);
+       restaurant.addPaymentType(paymentType);
+    }
+
+    @Transactional
+    public void removePaymentType(Long restaurantId, Long paymentTypeId) {
+        Restaurant restaurant = findByIdOrThrow(restaurantId);
+        PaymentType paymentType = paymentTypeService.findByIdOrThrow(paymentTypeId);
+        restaurant.removePaymentType(paymentType);
     }
 
     @Transactional

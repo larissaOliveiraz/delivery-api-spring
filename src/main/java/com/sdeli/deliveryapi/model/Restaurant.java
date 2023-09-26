@@ -47,6 +47,14 @@ public class Restaurant {
     )
     private Set<PaymentType> paymentTypes = new HashSet<>();
 
+    public void addPaymentType(PaymentType paymentType) {
+        getPaymentTypes().add(paymentType);
+    }
+
+    public void removePaymentType(PaymentType paymentType) {
+        getPaymentTypes().remove(paymentType);
+    }
+
     public void activate() {
         this.setActive(true);
     }
