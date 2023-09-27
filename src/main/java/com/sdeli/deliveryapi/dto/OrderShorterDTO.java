@@ -6,12 +6,10 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
-public class OrderDTO {
+public class OrderShorterDTO {
 
     private String code;
 
@@ -22,15 +20,8 @@ public class OrderDTO {
     private OrderStatus status;
 
     private OffsetDateTime creationDate;
-    private OffsetDateTime confirmationDate;
-    private OffsetDateTime deliveryDate;
-    private OffsetDateTime cancellationDate;
 
-    private AddressDTO address;
-
-    private PaymentTypeDTO paymentType;
     private RestaurantReferenceDTO restaurant;
     private UserDTO client;
-    private List<OrderItemDTO> items = new ArrayList<>();
 
 }

@@ -1,6 +1,7 @@
 package com.sdeli.deliveryapi.dto.factories;
 
 import com.sdeli.deliveryapi.dto.OrderDTO;
+import com.sdeli.deliveryapi.dto.OrderShorterDTO;
 import com.sdeli.deliveryapi.dto.input.OrderInput;
 import com.sdeli.deliveryapi.model.Order;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,16 @@ public class MakeOrderDTO {
     public List<OrderDTO> toCollectionDTO(List<Order> orders) {
         return orders.stream()
                 .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public OrderShorterDTO toShortDTO(Order order) {
+        return modelMapper.map(order, OrderShorterDTO.class);
+    }
+
+    public List<OrderShorterDTO> toShortCollectionDTO(List<Order> orders) {
+        return orders.stream()
+                .map(this::toShortDTO)
                 .collect(Collectors.toList());
     }
 
