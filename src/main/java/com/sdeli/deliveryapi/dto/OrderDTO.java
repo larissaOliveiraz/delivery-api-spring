@@ -29,8 +29,8 @@ public class OrderDTO {
     private AddressDTO address;
 
     private PaymentTypeDTO paymentType;
-    private RestaurantReferenceDTO restaurant;
-    private UserDTO client;
+    private RestaurantShorterDTO restaurant;
+    private UserShorterDTO client;
     private List<OrderItemDTO> items = new ArrayList<>();
 
 }

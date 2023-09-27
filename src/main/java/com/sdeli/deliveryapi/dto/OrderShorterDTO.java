@@ -21,7 +21,7 @@ public class OrderShorterDTO {
 
     private OffsetDateTime creationDate;
 
-    private RestaurantReferenceDTO restaurant;
-    private UserDTO client;
+    private RestaurantShorterDTO restaurant;
+    private UserShorterDTO client;
 
 }
