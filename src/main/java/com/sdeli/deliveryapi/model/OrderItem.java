@@ -26,4 +26,18 @@ public class OrderItem {
     @ManyToOne
     private Product product;
 
+    public void calculateItemTotal() {
+        BigDecimal unitPrice = this.getUnitPrice();
+        Integer quantity = this.getQuantity();
+
+        if (unitPrice == null) {
+            unitPrice = BigDecimal.ZERO;
+        }
+        if (quantity == null) {
+            quantity = 0;
+        }
+
+        this.setTotalPrice(unitPrice.multiply(new BigDecimal(quantity)));
+    }
+
 }

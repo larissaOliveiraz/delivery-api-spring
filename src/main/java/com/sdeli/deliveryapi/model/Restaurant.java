@@ -60,6 +60,10 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     private List<Product> products = new ArrayList<>();
 
+    public boolean acceptPaymentType(PaymentType paymentType) {
+        return getPaymentTypes().contains(paymentType);
+    }
+
     public void addPaymentType(PaymentType paymentType) {
         getPaymentTypes().add(paymentType);
     }

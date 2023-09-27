@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -20,7 +21,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String code;
 
     private BigDecimal subtotal;
@@ -31,7 +31,7 @@ public class Order {
     private Address address;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.CREATED;
 
     @CreationTimestamp
     private OffsetDateTime creationDate;
@@ -50,7 +50,22 @@ public class Order {
     @ManyToOne
     private PaymentType paymentType;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.MERGE)
     private List<OrderItem> items = new ArrayList<>();
+
+    public void calculateOrderTotal() {
+        getItems().forEach(OrderItem::calculateItemTotal);
+
+        this.subtotal = getItems().stream()
+                .map(OrderItem::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.setTotal(this.subtotal.add(this.shipment));
+    }
+
+    @PrePersist
+    public void generateCode() {
+        setCode(UUID.randomUUID().toString());
+    }
 
 }
