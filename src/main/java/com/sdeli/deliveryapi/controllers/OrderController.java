@@ -12,6 +12,9 @@ import com.sdeli.deliveryapi.repositories.OrderRepository;
 import com.sdeli.deliveryapi.services.OrderService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +30,12 @@ public class OrderController {
     private final MakeOrderDTO makeDTO;
 
     @GetMapping
-    public List<OrderShorterDTO> findAll() {
-        List<Order> orders = repository.findAll();
-        return makeDTO.toShortCollectionDTO(orders);
+    public Page<OrderShorterDTO> findAll(Pageable pageable) {
+        Page<Order> ordersPage = repository.findAll(pageable);
+
+        List<OrderShorterDTO> orders = makeDTO.toShortCollectionDTO(ordersPage.getContent());
+
+        return new PageImpl<>(orders, pageable, ordersPage.getTotalElements());
     }
 
     @GetMapping("/{code}")
