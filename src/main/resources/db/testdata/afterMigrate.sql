@@ -1,4 +1,8 @@
 DELETE
+FROM order_items;
+DELETE
+FROM orders;
+DELETE
 FROM products;
 DELETE
 FROM restaurants_users_responsible;
@@ -121,3 +125,20 @@ VALUES (1, 1),
        (4, 3),
        (4, 1),
        (5, 3);
+
+INSERT INTO orders (id, code, subtotal, shipment, total, restaurant_id,
+                    payment_type_id, client_id, address_city_id, address_zip_code,
+                    address_public_area, address_number, address_neighborhood, status,
+                    creation_date, confirmation_date, delivery_date, cancellation_date)
+VALUES (1, 'cad861b3-42a9-42de-af1f-f95d59becb4f', 20, 9, 29, 1, 1, 1, 1,
+        '123456', 'Rua Velha', '123', 'Vila 2',
+        'CREATED', CURRENT_TIMESTAMP, NULL, NULL, NULL),
+       (2, '774dcc78-362e-498e-a0ca-ecb39d2ce563', 120, 15, 135, 2, 2, 3, 2,
+        '123456', 'Rua 3', '321', 'Vila 48',
+        'CREATED', CURRENT_TIMESTAMP, NULL, NULL, NULL);
+ALTER SEQUENCE orders_id_seq RESTART WITH 3;
+
+INSERT INTO order_items (id, quantity, unit_price, total_price, product_id, order_id)
+VALUES (1, 3, 25.5, 76.5, 1, 1),
+       (2, 2, 15.9, 31.8, 2, 2);
+ALTER SEQUENCE order_items_id_seq RESTART WITH 3;
