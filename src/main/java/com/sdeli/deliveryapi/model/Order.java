@@ -1,5 +1,6 @@
 package com.sdeli.deliveryapi.model;
 
+import com.sdeli.deliveryapi.exceptions.GeneralBusinessException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -61,6 +62,32 @@ public class Order {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.setTotal(this.subtotal.add(this.shipment));
+    }
+
+    public void confirm() {
+        setStatus(OrderStatus.CONFIRMED);
+        setConfirmationDate(OffsetDateTime.now());
+    }
+
+    public void deliver() {
+        setStatus(OrderStatus.DELIVERED);
+        setDeliveryDate(OffsetDateTime.now());
+    }
+
+    public void cancel() {
+        setStatus(OrderStatus.CANCELLED);
+        setCancellationDate(OffsetDateTime.now());
+    }
+
+    public void setStatus(OrderStatus newStatus) {
+        if (getStatus().statusNotAllowed(newStatus)) {
+            throw new GeneralBusinessException(String.format(
+                    "Order with id %s cannot change status from %s to %s",
+                    getCode(), getStatus(), newStatus
+            ));
+        }
+
+        this.status = newStatus;
     }
 
     @PrePersist
