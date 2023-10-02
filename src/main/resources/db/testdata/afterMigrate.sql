@@ -3,6 +3,8 @@ FROM order_items;
 DELETE
 FROM orders;
 DELETE
+FROM product_photo;
+DELETE
 FROM products;
 DELETE
 FROM restaurants_users_responsible;
