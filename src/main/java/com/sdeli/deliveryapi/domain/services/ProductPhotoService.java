@@ -54,4 +54,14 @@ public class ProductPhotoService {
         return photo;
     }
 
+    @Transactional
+    public void delete(Long restaurantId, Long productId) {
+        ProductPhoto photo = findOrThrow(restaurantId, productId);
+
+        repository.delete(photo);
+        repository.flush();
+
+        photoStorageService.delete(photo.getFilename());
+    }
+
 }

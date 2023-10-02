@@ -12,6 +12,7 @@ import com.sdeli.deliveryapi.domain.services.ProductService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -82,6 +83,13 @@ public class RestaurantProductPhotoController {
 
         ProductPhoto productPhoto = photoService.save(photo, file.getInputStream());
         return mapper.toDTO(productPhoto);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long restaurantId,
+                      @PathVariable Long productId) {
+        photoService.delete(restaurantId, productId);
     }
 
     private void verifyMediaTypeCompatibility(MediaType photoMediaType,
