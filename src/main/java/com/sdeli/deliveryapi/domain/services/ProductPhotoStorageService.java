@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public interface ProductPhotoStorageService {
 
+    InputStream recover(String filename);
+
     void upload(NewPhoto newPhoto);
 
     void delete(String filename);

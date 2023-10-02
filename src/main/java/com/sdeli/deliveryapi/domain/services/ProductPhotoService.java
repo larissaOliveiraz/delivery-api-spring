@@ -1,5 +1,6 @@
 package com.sdeli.deliveryapi.domain.services;
 
+import com.sdeli.deliveryapi.domain.exceptions.PhotoNotFoundException;
 import com.sdeli.deliveryapi.domain.model.ProductPhoto;
 import com.sdeli.deliveryapi.domain.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,11 @@ public class ProductPhotoService {
 
     private final ProductRepository repository;
     private final ProductPhotoStorageService photoStorageService;
+
+    public ProductPhoto findOrThrow(Long restaurantId, Long productId) {
+        return repository.findPhotoById(restaurantId, productId)
+                .orElseThrow(() -> new PhotoNotFoundException(productId));
+    }
 
     @Transactional
     public ProductPhoto save(ProductPhoto photo, InputStream fileData) {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -14,6 +15,17 @@ public class LocalProductPhotoStorageService implements ProductPhotoStorageServi
 
     @Value("${delivery.storage.local.photo-directory}")
     private Path photoDirectory;
+
+    @Override
+    public InputStream recover(String filename) {
+        try {
+            Path filePath = getFilePath(filename);
+
+            return Files.newInputStream(filePath);
+        } catch (IOException e) {
+            throw new StorageException("Failed to recover file.", e);
+        }
+    }
 
     @Override
     public void upload(NewPhoto newPhoto) {
