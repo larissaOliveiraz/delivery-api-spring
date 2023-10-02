@@ -1,4 +1,4 @@
-package com.sdeli.deliveryapi.core.config;
+package com.sdeli.deliveryapi.core.custom;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

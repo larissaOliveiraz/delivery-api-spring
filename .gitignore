@@ -13,6 +13,9 @@ target/
 .springBeans
 .sts4-cache
 
+### Firebase ###
+./serviceAccountKey.json
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -31,3 +34,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/serviceAccountKey.json
