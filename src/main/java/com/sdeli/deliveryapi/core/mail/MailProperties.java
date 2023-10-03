@@ -11,6 +11,16 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("delivery.mail")
 public class MailProperties {
 
+    private String impl;
+
     private String from;
+
+    private Sandbox sandbox = new Sandbox();
+
+    @Getter
+    @Setter
+    public static class Sandbox {
+        private String recipient;
+    }
 
 }

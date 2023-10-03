@@ -4,36 +4,25 @@ import com.sdeli.deliveryapi.core.mail.MailProperties;
 import com.sdeli.deliveryapi.domain.services.SendMailService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-
 @AllArgsConstructor
-@Service
-public class SmptSendMailService implements SendMailService {
+public class SmtpSendMailService implements SendMailService {
 
     private final JavaMailSender mailSender;
     private final MailProperties mailProperties;
     private final Configuration freemarkerConfig;
 
 
-
     @Override
     public void send(Message message) {
         try {
-            String content = processTemplate(message);
-
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-
-            MimeMessageHelper mimeHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
-            mimeHelper.setFrom(mailProperties.getFrom());
-            mimeHelper.setTo(message.getRecipients().toArray(new String[0]));
-            mimeHelper.setSubject(message.getSubject());
-            mimeHelper.setText(content, true);
+            MimeMessage mimeMessage = createMimeMessage(message);
 
             mailSender.send(mimeMessage);
         } catch (Exception ex) {
@@ -42,7 +31,21 @@ public class SmptSendMailService implements SendMailService {
 
     }
 
-    private String processTemplate(Message message) {
+    protected MimeMessage createMimeMessage(Message message) throws MessagingException {
+        String content = processTemplate(message);
+
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+
+        MimeMessageHelper mimeHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
+        mimeHelper.setFrom(mailProperties.getFrom());
+        mimeHelper.setTo(message.getRecipients().toArray(new String[0]));
+        mimeHelper.setSubject(message.getSubject());
+        mimeHelper.setText(content, true);
+
+        return mimeMessage;
+    }
+
+    protected String processTemplate(Message message) {
         try {
             Template template = freemarkerConfig.getTemplate(message.getContent());
             return FreeMarkerTemplateUtils
