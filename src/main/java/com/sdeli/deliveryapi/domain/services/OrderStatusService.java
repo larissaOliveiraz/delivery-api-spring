@@ -19,8 +19,9 @@ public class OrderStatusService {
 
         var message = SendMailService.Message.builder()
                 .subject(order.getRestaurant().getName() + " - Order confirmed.")
-                .content(String.format("Your order with code <b>%s</b> was confirmed.",code))
+                .content("order-confirmed.html")
                 .recipient(order.getClient().getEmail())
+                .variable("order", order)
                 .build();
 
         sendMailService.send(message);
