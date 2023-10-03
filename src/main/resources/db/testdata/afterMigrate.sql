@@ -73,9 +73,9 @@ VALUES (1, 'SECRETARY'),
 ALTER SEQUENCE roles_id_seq RESTART WITH 4;
 
 INSERT INTO users (id, name, email, password, created_at)
-VALUES (1, 'Larissa', 'larissa@gmail.com', '123', CURRENT_TIMESTAMP),
-       (2, 'Jurema', 'jurema@gmail.com', '321', CURRENT_TIMESTAMP),
-       (3, 'Pantufa', 'pantufa@gmail.com', 'pantufa', CURRENT_TIMESTAMP);
+VALUES (1, 'Larissa', 'larissa.backend+larissa@gmail.com', '123', CURRENT_TIMESTAMP),
+       (2, 'Jurema', 'larissa.backend+jurema@gmail.com', '321', CURRENT_TIMESTAMP),
+       (3, 'Pantufa', 'larissa.backend+pantufa@gmail.com', 'pantufa', CURRENT_TIMESTAMP);
 ALTER SEQUENCE users_id_seq RESTART WITH 4;
 
 INSERT INTO roles_permissions (role_id, permission_id)
