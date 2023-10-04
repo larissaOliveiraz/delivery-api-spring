@@ -1,6 +1,7 @@
 package com.sdeli.deliveryapi.domain.services;
 
 import com.sdeli.deliveryapi.domain.model.Order;
+import com.sdeli.deliveryapi.domain.repositories.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,33 +11,30 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderStatusService {
 
     private final OrderService service;
-    private final SendMailService sendMailService;
+    private final OrderRepository repository;
 
     @Transactional
     public void confirm(String code) {
         Order order = service.findByCodeOrThrow(code);
         order.confirm();
 
-        var message = SendMailService.Message.builder()
-                .subject(order.getRestaurant().getName() + " - Order confirmed.")
-                .content("order-confirmed.html")
-                .recipient(order.getClient().getEmail())
-                .variable("order", order)
-                .build();
-
-        sendMailService.send(message);
+        repository.save(order); //to throw the event
     }
 
     @Transactional
     public void deliver(String code) {
         Order order = service.findByCodeOrThrow(code);
         order.deliver();
+
+        repository.save(order);
     }
 
     @Transactional
     public void cancel(String code) {
         Order order = service.findByCodeOrThrow(code);
         order.cancel();
+
+        repository.save(order);
     }
 
 }

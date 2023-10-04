@@ -1,10 +1,14 @@
 package com.sdeli.deliveryapi.domain.model;
 
+import com.sdeli.deliveryapi.domain.event.OrderCancelledEvent;
+import com.sdeli.deliveryapi.domain.event.OrderConfirmedEvent;
+import com.sdeli.deliveryapi.domain.event.OrderDeliveredEvent;
 import com.sdeli.deliveryapi.domain.exceptions.GeneralBusinessException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -13,9 +17,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Entity(name = "orders")
-public class Order {
+public class Order extends AbstractAggregateRoot<Order> {
 
     @Id
     @EqualsAndHashCode.Include
@@ -67,16 +71,22 @@ public class Order {
     public void confirm() {
         setStatus(OrderStatus.CONFIRMED);
         setConfirmationDate(OffsetDateTime.now());
+
+        registerEvent(new OrderConfirmedEvent(this));
     }
 
     public void deliver() {
         setStatus(OrderStatus.DELIVERED);
         setDeliveryDate(OffsetDateTime.now());
+
+        registerEvent(new OrderDeliveredEvent(this));
     }
 
     public void cancel() {
         setStatus(OrderStatus.CANCELLED);
         setCancellationDate(OffsetDateTime.now());
+
+        registerEvent(new OrderCancelledEvent(this));
     }
 
     public void setStatus(OrderStatus newStatus) {

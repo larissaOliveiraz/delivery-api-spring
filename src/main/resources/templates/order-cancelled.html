@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Order Cancelled</title>
+    </head>
+    <body>
+        <h2 style="color: darkred">Order Cancelled!</h2>
+        <p style="font-size: 16px">Hello <b>${order.client.name}</b>,</p>
+        <p style="font-size: 16px">Your order at <b>${order.restaurant.name}</b> has been cancelled.</p>
+
+        <#list order.items as item>
+        <div style="display: flex;">
+            <p style="font-size: 16px"><b>${item.product.description}</b></p>
+            <p style="font-size: 16px; margin-left: 10px;margin-right: 10px">Quantity - <b>${item.quantity}</b></p>
+            <p style="font-size: 16px">Product Total - <b>R$ ${item.totalPrice}</b></p>
+        </div>
+        </#list>
+
+        <p style="font-size: 16px">Subtotal: <b>R$ ${order.subtotal}</b></p>
+        <p style="font-size: 16px">Shipment: <b>R$ ${order.shipment}</b></p>
+        <p style="font-size: 16px">Total: <b>R$ ${order.total}</b></p>
+        <p style="font-size: 16px">Payment type: <b>${order.paymentType.description}</b></p>
+    </body>
+</html>
