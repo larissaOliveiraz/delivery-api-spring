@@ -22,28 +22,28 @@ public class RestaurantController {
 
     private final RestaurantRepository repository;
     private final RestaurantService service;
-    private final RestaurantMapper makeDTO;
+    private final RestaurantMapper mapper;
 
     @GetMapping
     public List<RestaurantDTO> findAll() {
         List<Restaurant> restaurants = repository.findAll();
-        return makeDTO.toCollectionDTO(restaurants);
+        return mapper.toCollectionDTO(restaurants);
     }
 
     @GetMapping("/{id}")
     public RestaurantDTO findById(@PathVariable Long id) {
         Restaurant restaurant = service.findByIdOrThrow(id);
-        return makeDTO.toDTO(restaurant);
+        return mapper.toDTO(restaurant);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RestaurantDTO save(@RequestBody @Valid RestaurantInput restaurantInput) {
-        Restaurant restaurant = makeDTO.toDomain(restaurantInput);
+        Restaurant restaurant = mapper.toDomain(restaurantInput);
 
         restaurant = service.save(restaurant);
 
-        return makeDTO.toDTO(restaurant);
+        return mapper.toDTO(restaurant);
     }
 
     @PutMapping("/{id}")
@@ -51,10 +51,10 @@ public class RestaurantController {
                                 @RequestBody RestaurantInput restaurantInput) {
         Restaurant restaurant = service.findByIdOrThrow(id);
 
-        makeDTO.copyToDomain(restaurantInput, restaurant);
+        mapper.copyToDomain(restaurantInput, restaurant);
         restaurant = service.save(restaurant);
 
-        return makeDTO.toDTO(restaurant);
+        return mapper.toDTO(restaurant);
     }
 
     @PutMapping("/{id}/active")

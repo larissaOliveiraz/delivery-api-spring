@@ -8,6 +8,7 @@ public enum ProblemType {
     RESOURCE_NOT_FOUND("Resource not found.", "/resource-not-found"),
     INVALID_DATA("Invalid data.", "/invalid-data"),
     RESOURCE_ALREADY_EXISTS("Resource already exists.", "/resource-already-exists"),
+    ENTITY_IN_USE("Entity in use.", "/entity-in-use"),
     GENERAL_BUSINESS("General business exception.", "/general-business"),
     INTERNAL_SERVER("Internal server exception.", "/internal-server");
 

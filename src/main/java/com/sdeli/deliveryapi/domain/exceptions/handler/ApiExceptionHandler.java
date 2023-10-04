@@ -1,6 +1,7 @@
 package com.sdeli.deliveryapi.domain.exceptions.handler;
 
 import com.sdeli.deliveryapi.domain.exceptions.EntityAlreadyExistsException;
+import com.sdeli.deliveryapi.domain.exceptions.EntityInUseException;
 import com.sdeli.deliveryapi.domain.exceptions.EntityNotFoundException;
 import com.sdeli.deliveryapi.domain.exceptions.GeneralBusinessException;
 import lombok.AllArgsConstructor;
@@ -72,6 +73,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     ) {
         ProblemType problemType = ProblemType.RESOURCE_NOT_FOUND;
         HttpStatus status = HttpStatus.NOT_FOUND;
+
+        Problem problem = problemBuilder(problemType, status, ex.getMessage()).build();
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(EntityInUseException.class)
+    private ResponseEntity<?> handleEntityInUseException(
+            EntityInUseException ex,
+            WebRequest request
+    ) {
+        ProblemType problemType = ProblemType.ENTITY_IN_USE;
+        HttpStatus status = HttpStatus.CONFLICT;
 
         Problem problem = problemBuilder(problemType, status, ex.getMessage()).build();
 

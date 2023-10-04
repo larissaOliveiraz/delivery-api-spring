@@ -6,11 +6,15 @@ import com.sdeli.deliveryapi.application.dto.input.PaymentTypeInput;
 import com.sdeli.deliveryapi.domain.model.PaymentType;
 import com.sdeli.deliveryapi.domain.repositories.PaymentTypeRepository;
 import com.sdeli.deliveryapi.domain.services.PaymentTypeService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @AllArgsConstructor
 @RestController
@@ -19,39 +23,47 @@ public class PaymentTypeController {
 
     private final PaymentTypeRepository repository;
     private final PaymentTypeService service;
-    private final PaymentTypeMapper makeDTO;
+    private final PaymentTypeMapper mapper;
 
     @GetMapping
-    public List<PaymentTypeDTO> findAll() {
+    public ResponseEntity<List<PaymentTypeDTO>> findAll() {
         List<PaymentType> paymentTypes = repository.findAll();
-        return makeDTO.toCollectionDTO(paymentTypes);
+        List<PaymentTypeDTO> paymentTypesDTO = mapper.toCollectionDTO(paymentTypes);
+
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .body(paymentTypesDTO);
     }
 
     @GetMapping("/{id}")
-    public PaymentTypeDTO findById(@PathVariable Long id) {
+    public ResponseEntity<PaymentTypeDTO> findById(@PathVariable Long id) {
         PaymentType paymentType = service.findByIdOrThrow(id);
-        return makeDTO.toDTO(paymentType);
+        PaymentTypeDTO paymentTypeDTO = mapper.toDTO(paymentType);
+
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .body(paymentTypeDTO);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PaymentTypeDTO save(@RequestBody PaymentTypeInput paymentTypeInput) {
-        PaymentType paymentType = makeDTO.toDomain(paymentTypeInput);
+    public PaymentTypeDTO save(@RequestBody @Valid PaymentTypeInput paymentTypeInput) {
+        PaymentType paymentType = mapper.toDomain(paymentTypeInput);
 
         paymentType = service.save(paymentType);
 
-        return makeDTO.toDTO(paymentType);
+        return mapper.toDTO(paymentType);
     }
 
     @PutMapping("/{id}")
     public PaymentTypeDTO update(@PathVariable Long id,
-                                 @RequestBody PaymentTypeInput paymentTypeInput) {
+                                 @RequestBody @Valid PaymentTypeInput paymentTypeInput) {
         PaymentType paymentType = service.findByIdOrThrow(id);
 
-        makeDTO.copyToDomain(paymentTypeInput, paymentType);
+        mapper.copyToDomain(paymentTypeInput, paymentType);
         paymentType = service.save(paymentType);
 
-        return makeDTO.toDTO(paymentType);
+        return mapper.toDTO(paymentType);
     }
 
     @DeleteMapping("/{id}")
